@@ -27,10 +27,7 @@ Here's the same example of a JSON Web Signature (JWS) structure with the fields 
 
 ```json
 {
-  "protected": "{
-    \"alg\": \"HS256\",
-    \"typ\": \"JWT\"
-  }",
+  "protected": "{ \"alg\": \"HS256\", \"typ\": \"JWT\" }",
   "payload": "This is a sample message",
   "signature": "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
 }
