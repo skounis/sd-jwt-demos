@@ -104,3 +104,65 @@ echo $jws
 Make sure to replace `"your_secret_key_here"` with your actual secret key. This script calculates the HMAC-SHA256 signature using OpenSSL and outputs the final JWS structure.
 
 Remember that this is a simplified example for demonstration purposes, and in a production environment, you should use proper libraries and tools for handling cryptographic operations.
+
+## JSON Web Token (JWT)
+A JSON Web Token (JWT) has three parts: the header, the payload, and the signature. Here's how they're structured:
+
+1. Header: Typically consists of two parts: the type of token (JWT) and the signing algorithm being used, such as HMAC SHA256 or RSA.
+   Example: {"alg": "HS256", "typ": "JWT"}
+
+2. Payload: Contains the claims. Claims are statements about an entity (typically the user) and additional data.
+   Example: {"sub": "1234567890", "name": "John Doe", "iat": 1516239022}
+
+3. Signature: The signature is used to verify that the sender of the JWT is who it says it is and to ensure that the message wasn't changed along the way.
+   To create the signature, you need to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that.
+   Example: HMACSHA256(
+   base64UrlEncode(header) + "." +
+   base64UrlEncode(payload),
+   secret)
+
+Note that these parts are base64url encoded and then concatenated using periods to form the JWT. The resulting JWT is of the form: `xxxxx.yyyyy.zzzzz`.
+
+Please replace the examples with actual values when creating or working with JWTs.
+
+### Create a JWT from JWS
+
+Here is an example on how to create a JWT from the following JWS:
+```json
+{
+   "protected":"{\"alg\": \"HS256\",\"typ\": \"JWT\"}",
+   "payload":"{\"message\": \"This is a sample message\"}",
+   "signature":"AqdXLKTbij++ZuHoYzVRnMV72BkWFPJWAnPdW2/2K8A"
+}
+
+```
+
+First, let's break down the provided JWS into its components:
+
+1. **Header**: `{"alg": "HS256", "typ": "JWT"}`
+2. **Payload**: `{"message": "This is a sample message"}`
+3. **Signature**: `AqdXLKTbij++ZuHoYzVRnMV72BkWFPJWAnPdW2/2K8A`
+
+Now, let's create the JWT using these components:
+
+1. Encode the Header and Payload components using base64url encoding:
+   - Encoded Header: `eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9`
+   - Encoded Payload: `eyJtZXNzYWdlIjogIlRoaXMgaXMgYSBzYW1wbGUgbWVzc2FnZSJ9`
+
+2. Concatenate the encoded Header and Payload with a period (`.`) separator:
+   - JOSE Header: `eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.`
+   - Encoded Payload: `eyJtZXNzYWdlIjogIlRoaXMgaXMgYSBzYW1wbGUgbWVzc2FnZSJ9`
+
+3. Add the provided Signature:
+   - Signature: `AqdXLKTbij++ZuHoYzVRnMV72BkWFPJWAnPdW2/2K8A`
+
+4. Concatenate the JOSE Header and Encoded Payload with a period (`.`) separator, and then append the Signature:
+   - JWT: `eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJtZXNzYWdlIjogIlRoaXMgaXMgYSBzYW1wbGUgbWVzc2FnZSJ9.AqdXLKTbij++ZuHoYzVRnMV72BkWFPJWAnPdW2/2K8A`
+
+This is your completed JSON Web Token (JWT) based on the provided JSON Web Signature (JWS).
+
+Please note that in practice, you would also need to include valid expiration (`exp`), issuer (`iss`), and subject (`sub`) claims in the payload to make the JWT more meaningful and secure.
+
+
+
+
