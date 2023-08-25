@@ -3,6 +3,20 @@
 ## Overview 
 _{TBD}_
 
+## Quick run
+Open the repository in Codespace and run the following bash commands in the terminal
+
+![Open in Codespace](assets/image-01-opencodespace.png)
+
+Sign a sample payload and create its web signature:
+```bash
+make jws
+```
+
+Sign a sample payload and pack it with its signature into a JSON Web Token (JWT)
+```bash
+make jwt
+```
 
 ## JSON Web Signature
 
@@ -164,5 +178,25 @@ This is your completed JSON Web Token (JWT) based on the provided JSON Web Signa
 Please note that in practice, you would also need to include valid expiration (`exp`), issuer (`iss`), and subject (`sub`) claims in the payload to make the JWT more meaningful and secure.
 
 
+#### JWT Security
+
+> The JSON-based representation of claims in **a signed JWT is secured against modification** using JWS digital signatures. A consumer of a signed JWT that has checked the signature can safely assume that the contents of the token have not been modified. However, **anyone receiving an unencrypted JWT can read all the claims**. Likewise, anyone with the decryption key receiving encrypted JWT can also read all the claims.
+>
+> -- https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-05.html#name-introduction-2
 
 
+## SD-JWT notes
+> The **Holder decides which claims to disclose** to a particular Verifier and includes the respective Disclosures in the SD-JWT to that Verifier. The Verifier has to verify that all disclosed claim values were part of the original Issuer-signed JWT. **The Verifier will not**, however, **learn any claim values not disclosed** in the Disclosures.
+>
+> -- https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-05.html#section-1-8
+
+
+> This document also specifies an optional mechanism for Key Binding, which is the concept of **binding an SD-JWT to a Holder's public key** and requiring that the Holder prove possession of the corresponding private key when presenting the SD-JWT.
+>
+> -- https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-05.html#section-1-9
+
+
+
+## References
+* [Selective Disclosure for JWTs (SD-JWT)](https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-05.html)
+  * [Source and Issue tracking in GitHub](https://github.com/oauth-wg/oauth-selective-disclosure-jwt)
